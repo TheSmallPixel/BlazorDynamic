@@ -1,0 +1,21 @@
+﻿@using QRCoder
+@using System.Drawing
+
+<div class="my-component">
+    This component is defined in the <strong>TestBlazorComponents</strong> library.
+    @if (Image64 != null) {
+    <img src=@Image64 />
+
+    <button @onclick=GenerateCode>Show QR</button>
+}
+</div>
+@code {
+    protected string Image64 { get; set; } = null;
+    public async Task GenerateCode()
+    {
+        QRCodeGenerator qrGenerator = new QRCodeGenerator();
+        QRCodeData qrCodeData = qrGenerator.CreateQrCode("The text which should be encoded.", QRCodeGenerator.ECCLevel.Q);
+        Base64QRCode qrCode = new Base64QRCode(qrCodeData);
+        Image64 = qrCode.GetGraphic(20);
+    }
+}

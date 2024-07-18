@@ -1,0 +1,50 @@
+﻿@using BlazorDynamic.Models
+@using BlazorDynamic.Client
+@using Microsoft.Azure.Management.ResourceManager.Fluent.Core.ResourceActions
+@page "/"
+
+@inject HttpClient httpClient
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+<input type="text" @bind-value=pluginName />
+<button @onclick=LoadPlugin>Load</button>
+@foreach (var typ in info)
+{
+    <p>@typ</p>
+}
+@if (ComponentType != null)
+{
+    <DynamicComponent Type="@ComponentType" @ref="dc" />
+}
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+@code {
+    private List<string> info = new();
+    private string pluginName = "test";
+    private DynamicComponent dc;
+    private Type ComponentType = null;
+    public async Task LoadPlugin()
+    {
+        await Task.CompletedTask;
+      @*  var data = await httpClient.GetFromJsonAsync<List<AssemblyRawData>>($"/Module/plugins/{pluginName}");
+        if (data == null)
+            return;
+        var asbly = data.LoadAssembly(AppDomain.CurrentDomain);
+        if (asbly == null)
+            return;
+        foreach (var typ in asbly.GetTypes())
+        {
+            info.Add($"{typ.Name} {typ.BaseType?.Name}");
+        }
+        var typeSelected = asbly.GetTypes().FirstOrDefault(x => x.Name == "Component1");
+        ComponentType = typeSelected;*@
+
+        
+        //(dc.Instance as IRefreshable)?.Refresh();
+    }
+
+}
